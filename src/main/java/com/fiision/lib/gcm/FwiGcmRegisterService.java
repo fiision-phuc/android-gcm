@@ -70,6 +70,11 @@ public final class FwiGcmRegisterService extends IntentService {
                 String registrationId = instanceID.getToken(FwiGcm.getProjectId(), GoogleCloudMessaging.INSTANCE_ID_SCOPE);
                 String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
+                // Notify delegate
+                if (FwiGcm.getDelegate() != null) {
+                    FwiGcm.getDelegate().gcmRegisterServiceDidFinish(deviceId, registrationId);
+                }
+
                 // Broadcast message
                 Intent broadcastIntent = new Intent(FwiGcmRegisterService.class.getName());
                 intent.putExtra(REGISTRATION_ID, registrationId);
@@ -82,5 +87,13 @@ public final class FwiGcmRegisterService extends IntentService {
                 // Ignore the exception, re-try
             }
         } while (!isSuccessed);
+    }
+
+
+    // FwiGcmRegisterServiceDelegate
+    public interface FwiGcmRegisterServiceDelegate {
+
+        /** Notify delegate the process had been finished. */
+        void gcmRegisterServiceDidFinish(String deviceId, String registrationId);
     }
 }

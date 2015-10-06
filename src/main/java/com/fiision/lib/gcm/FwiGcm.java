@@ -43,15 +43,26 @@ public final class FwiGcm {
 
 
     static private String projectId = null;
+    static private FwiGcmRegisterService.FwiGcmRegisterServiceDelegate delegate;
 
 
     /**
-     * Global set projectId
+     * Global set projectId.
      */
     public static String getProjectId() {
         return projectId;
     }
     public static void setProjectId(String projectId) {
         FwiGcm.projectId = projectId;
+    }
+
+    /**
+     * Global set gcm delegate.
+     */
+    public static FwiGcmRegisterService.FwiGcmRegisterServiceDelegate getDelegate() {
+        return delegate;
+    }
+    public static void setDelegate(FwiGcmRegisterService.FwiGcmRegisterServiceDelegate delegate) {
+        FwiGcm.delegate = delegate;
     }
 }
