@@ -39,11 +39,14 @@
 package com.fiision.lib.gcm;
 
 
+import android.content.*;
+
+
 public final class FwiGcm {
 
 
     static private String projectId = null;
-    static private FwiGcmRegisterService.FwiGcmRegisterServiceDelegate delegate;
+    static private FwiGcmRegisterServiceDelegate delegate;
 
 
     /**
@@ -59,10 +62,21 @@ public final class FwiGcm {
     /**
      * Global set gcm delegate.
      */
-    public static FwiGcmRegisterService.FwiGcmRegisterServiceDelegate getDelegate() {
+    public static FwiGcmRegisterServiceDelegate getDelegate() {
         return delegate;
     }
-    public static void setDelegate(FwiGcmRegisterService.FwiGcmRegisterServiceDelegate delegate) {
+    public static void setDelegate(FwiGcmRegisterServiceDelegate delegate) {
         FwiGcm.delegate = delegate;
+    }
+
+
+    // FwiGcmRegisterServiceDelegate
+    public interface FwiGcmRegisterServiceDelegate {
+
+        /** Notify delegate the process had been finished. */
+        void gcmRegisterServiceDidFinish(String deviceId, String registrationId);
+
+        /** Notify delegate that there is new remote notification. */
+        void gcmDidReceiveRemoteNotification(Intent broadcastIntent);
     }
 }

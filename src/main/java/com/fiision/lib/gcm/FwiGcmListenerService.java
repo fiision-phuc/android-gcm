@@ -39,12 +39,8 @@
 package com.fiision.lib.gcm;
 
 
-import android.app.*;
 import android.content.*;
-import android.media.*;
-import android.net.*;
 import android.os.*;
-import android.support.v4.app.*;
 
 import com.google.android.gms.gcm.*;
 
@@ -67,32 +63,13 @@ public class FwiGcmListenerService extends GcmListenerService {
             Serializable value = data.getSerializable(key);
             broadcastIntent.putExtra(key, value);
         }
+
+        // Notify delegate
+        if (FwiGcm.getDelegate() != null) {
+            FwiGcm.getDelegate().gcmDidReceiveRemoteNotification(broadcastIntent);
+        }
+
+        // Send broadcast
         sendBroadcast(broadcastIntent);
-    }
-
-    /**
-     * Create and show a simple notification containing the received GCM message.
-     *
-     * @param message GCM message received.
-     */
-    private void sendNotification(String message) {
-//        Intent intent = new Intent(this, MapActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-//                PendingIntent.FLAG_ONE_SHOT);
-
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-//                .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                .setContentTitle("GCM Message")
-                .setContentText(message)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri);
-//                .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 }

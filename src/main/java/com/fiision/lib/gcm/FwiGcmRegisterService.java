@@ -88,12 +88,4 @@ public final class FwiGcmRegisterService extends IntentService {
             }
         } while (!isSuccessed);
     }
-
-
-    // FwiGcmRegisterServiceDelegate
-    public interface FwiGcmRegisterServiceDelegate {
-
-        /** Notify delegate the process had been finished. */
-        void gcmRegisterServiceDidFinish(String deviceId, String registrationId);
-    }
 }
